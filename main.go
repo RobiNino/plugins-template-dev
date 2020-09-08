@@ -14,8 +14,8 @@ func main() {
 
 func getApp() core.App {
 	app := core.App{}
-	app.Name = "plugin-template"
-	app.Usage = "See the plugin documentation for more instructions."
+	app.Name = "hello-example"
+	app.Description = "Easily greet anyone."
 	app.Version = "0.1.0"
 	app.Commands = getCommands()
 	return app
