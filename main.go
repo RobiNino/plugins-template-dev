@@ -2,18 +2,19 @@ package main
 
 import (
 	"errors"
-	"fmt"
-	"github.com/jfrog/jfrog-cli/plugins/core"
+	"github.com/jfrog/jfrog-cli-core/plugins"
+	"github.com/jfrog/jfrog-cli-core/plugins/components"
+	"github.com/jfrog/jfrog-client-go/utils/log"
 	"strconv"
 	"strings"
 )
 
 func main() {
-	core.JfrogPluginMain(getApp())
+	plugins.JfrogPluginMain(getApp())
 }
 
-func getApp() core.App {
-	app := core.App{}
+func getApp() components.App {
+	app := components.App{}
 	app.Name = "hello-example"
 	app.Description = "Easily greet anyone."
 	app.Version = "0.1.0"
@@ -21,41 +22,54 @@ func getApp() core.App {
 	return app
 }
 
-func getCommands() []core.Command {
-	return []core.Command{
+func getCommands() []components.Command {
+	return []components.Command{
 		{
 			Name:        "hello",
 			Description: "Says Hello.",
 			Aliases:     []string{"hi"},
-			Arguments: []core.Argument{
+			Arguments: []components.Argument{
 				{
 					Name:        "addressee",
-					Description: "The name of the addressee you would like to greet.",
+					Description: "The name of the person you would like to greet.",
 				},
 			},
-			Flags: []core.StringFlag{
-				{
-					Name:  "shout",
-					Usage: "Makes output all uppercase.",
+			Flags: []components.Flag{
+				components.BoolFlag{
+					Name:         "shout",
+					Usage:        "Makes output all uppercase.",
+					DefaultValue: false,
+				},
+				components.StringFlag{
+					Name:         "repeat",
+					Usage:        "Greets multiple times.",
+					DefaultValue: "1",
 				},
 			},
-			Action: func(c *core.Context) error {
+			Action: func(c *components.Context) error {
 				return helloCmd(c)
 			},
 		},
 	}
 }
 
-func helloCmd(c *core.Context) error {
+func helloCmd(c *components.Context) error {
 	if len(c.Arguments) != 1 {
 		return errors.New("Wrong number of arguments. Expected: 1, " + "Received: " + strconv.Itoa(len(c.Arguments)))
 	}
 	greet := "Hello " + c.Arguments[0] + "!"
-	if val, ok := c.Flags["shout"]; ok {
-		if val == "true" {
-			greet = strings.ToUpper(greet)
-		}
+
+	if c.GetBoolFlagValue("shout") {
+		greet = strings.ToUpper(greet)
 	}
-	fmt.Println(greet)
+
+	repeat, err := strconv.Atoi(c.GetStringFlagValue("repeat"))
+	if err != nil {
+		return err
+	}
+	for i := 0; i < repeat; i++ {
+		log.Output(greet)
+	}
+
 	return nil
 }
