@@ -48,7 +48,7 @@ func getCommands() []core.Command {
 
 func helloCmd(c *core.Context) error {
 	if len(c.Arguments) != 1 {
-		return errors.New("Wrong number of arguments. Expected: 1, " + "Received: " + strconv.Itoa(len(c.Arguments))) //todo add command to context
+		return errors.New("Wrong number of arguments. Expected: 1, " + "Received: " + strconv.Itoa(len(c.Arguments)))
 	}
 	greet := "Hello " + c.Arguments[0] + "!"
 	if val, ok := c.Flags["shout"]; ok {
