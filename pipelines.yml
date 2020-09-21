@@ -18,7 +18,7 @@ pipelines:
         type: Bash
         configuration:
           integrations:
-            - name: ecosys #todo releases_jfrog
+            - name: robi_eco #todo releases_jfrog
           inputResources:
             - name: buildJfrogCliPluginGit
           environmentVariables:
@@ -31,6 +31,6 @@ pipelines:
             - touch testtestt
             #- ./jfrog rt docker-push $IMAGE_NAME reg2 --url=https://releases.jfrog.io/artifactory --access-token=$int_releases_jfrog_token
             #- ./jfrog rt u ./todo --url=https://releases.jfrog.io/artifactory --access-token=$int_releases_jfrog_token
-            - ./jfrog rt u ./testtestt robi-t/pipe/ --url=https://ecosysjfrog.jfrog.io/artifactory --access-token=$int_ecosys_token
+            - ./jfrog rt u ./testtestt robi-t/pipe/ --url=https://ecosysjfrog.jfrog.io/artifactory --user=$int_robi_eco_user --apikey=$int_robi_eco_apikey
           onComplete:
             - update_commit_status buildJfrogCliPluginGit --context "$step_name"
