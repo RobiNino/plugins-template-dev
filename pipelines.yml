@@ -1,0 +1,35 @@
+resources:
+  - name: buildJfrogCliPluginGit
+    type: GitRepo
+    configuration:
+      path: RobiNino/plugins-template-dev #todo
+      gitProvider: github
+      buildOn:
+        # Build on commit and tags
+        tagCreate: true
+      branches:
+        # Only build on the master
+        include: master
+
+pipelines:
+  - name: build_jfrog_cli_plugin
+    steps:
+      - name: BuildAndPush
+        type: Bash
+        configuration:
+          integrations:
+            - name: ecosys #todo releases_jfrog
+          inputResources:
+            - name: buildJfrogCliPluginGit
+          environmentVariables:
+            JFROG_CLI_OFFER_CONFIG: "false"
+        execution:
+          onStart:
+            - update_commit_status buildJfrogCliPluginGit --context "$step_name"
+          onExecute:
+            - touch testtest
+            #- ./jfrog rt docker-push $IMAGE_NAME reg2 --url=https://releases.jfrog.io/artifactory --access-token=$int_releases_jfrog_token
+            #- ./jfrog rt u ./todo --url=https://releases.jfrog.io/artifactory --access-token=$int_releases_jfrog_token
+            - ./jfrog rt u ./testtest --url=https://ecosysjfrog.jfrog.io/artifactory --access-token=$int_ecosys_token
+          onComplete:
+            - update_commit_status buildJfrogCliPluginGit --context "$step_name"
