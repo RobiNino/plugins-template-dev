@@ -27,7 +27,7 @@ pipelines:
           onStart:
             - update_commit_status buildJfrogCliPluginGit --context "$step_name"
           onExecute:
-            - python --version
+            - python3 --version
             - curl -fL https://getcli.jfrog.io | sh
             - touch testtestt
             #- ./jfrog rt docker-push $IMAGE_NAME reg2 --url=https://releases.jfrog.io/artifactory --access-token=$int_releases_jfrog_token
