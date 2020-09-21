@@ -3,7 +3,7 @@ resources:
     type: GitRepo
     configuration:
       path: RobiNino/plugins-template-dev #todo
-      gitProvider: robi-github
+      gitProvider: robi_github
       buildOn:
         # Build on commit and tags
         tagCreate: true
