@@ -30,6 +30,6 @@ pipelines:
             - touch testtest
             #- ./jfrog rt docker-push $IMAGE_NAME reg2 --url=https://releases.jfrog.io/artifactory --access-token=$int_releases_jfrog_token
             #- ./jfrog rt u ./todo --url=https://releases.jfrog.io/artifactory --access-token=$int_releases_jfrog_token
-            - ./jfrog rt u ./testtest --url=https://ecosysjfrog.jfrog.io/artifactory --access-token=$int_ecosys_token
+            - ./jfrog rt u ./testtest robi-t/pipe/ --url=https://ecosysjfrog.jfrog.io/artifactory --access-token=$int_ecosys_token
           onComplete:
             - update_commit_status buildJfrogCliPluginGit --context "$step_name"
