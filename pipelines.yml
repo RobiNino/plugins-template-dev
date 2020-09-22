@@ -23,17 +23,17 @@ pipelines:
             - name: buildJfrogCliPluginGit
           environmentVariables:
             JFROG_CLI_OFFER_CONFIG: "false"
-            JFROG_CLI_PLUGIN_DOMAIN_NAME: ""
-            JFROG_CLI_PLUGIN_REPO_NAME: ""
-            JFROG_CLI_PLUGIN_VERSION: ""
+            JFROG_CLI_PLUGIN_DOMAIN_NAME: "RobiNino"
+            JFROG_CLI_PLUGIN_REPO_NAME: "plugins-template-dev"
+            JFROG_CLI_PLUGIN_VERSION: "0.0.1"
         execution:
           onStart:
             - update_commit_status buildJfrogCliPluginGit --context "$step_name"
           onExecute:
-            - git clone https://github.com/RobiNino/plugins-template-dev
-            - pushd plugins-template-dev
+            - git clone https://github.com/$JFROG_CLI_PLUGIN_DOMAIN_NAME/$JFROG_CLI_PLUGIN_REPO_NAME
+            - pushd $JFROG_CLI_PLUGIN_REPO_NAME
             - sh pipelinesScripts/pluginRelease.sh
-            - popd plugins-template-dev
+            - popd $JFROG_CLI_PLUGIN_REPO_NAME
             #- touch testtestt
             #- ./jfrog rt docker-push $IMAGE_NAME reg2 --url=https://releases.jfrog.io/artifactory --access-token=$int_releases_jfrog_token
             #- ./jfrog rt u ./todo --url=https://releases.jfrog.io/artifactory --access-token=$int_releases_jfrog_token

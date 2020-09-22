@@ -19,4 +19,5 @@ buildAndUpload () {
 }
 curl -fL https://getcli.jfrog.io | sh
 echo "HERE"
-declare -a windows-amd64=("element1" "element2" "element3")
+echo "$JFROG_CLI_PLUGIN_REPO_NAME"
+#declare -a windows-amd64=("element1" "element2" "element3")
