@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x
 set -e
 
 #function build(goos, goarch, exeName)
@@ -24,9 +23,10 @@ buildAndUpload () {
   destPath="robi-t/pipe-releases/$JFROG_CLI_PLUGIN_REPO_NAME/$JFROG_CLI_PLUGIN_VERSION/$pkg/$exeName"
   ./jfrog rt u "./$exeName" "$destPath" --url=https://ecosysjfrog.jfrog.io/artifactory --user=$int_robi_eco_user --apikey=$int_robi_eco_apikey
 }
+
+# Download JFrog CLI
+jfrog -v
 curl -fL https://getcli.jfrog.io | sh
-echo "HERE"
-go version
 
 # Build and upload for every architecture
 buildAndUpload 'windows-amd64' 'windows' 'amd64' '.exe'
@@ -35,5 +35,3 @@ buildAndUpload 'linux-amd64' 'linux' 'amd64' ''
 buildAndUpload 'linux-arm64' 'linux' 'arm64' ''
 buildAndUpload 'linux-arm' 'linux' 'arm' ''
 buildAndUpload 'mac-386' 'darwin' 'amd64' ''
-
-#declare -a windows-amd64=("element1" "element2" "element3")
