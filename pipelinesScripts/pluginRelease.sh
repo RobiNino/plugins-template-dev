@@ -3,7 +3,8 @@ build () {
   echo build
   export GOOS="$0"
   export GOARCH="$1"
-  echo "$GOOS"
+  echo "$0"
+  echo $0
   echo "$GOARCH"
   CGO_ENABLED=0 go build -o "$2" -ldflags '-w -extldflags "-static"' main.go
 }
