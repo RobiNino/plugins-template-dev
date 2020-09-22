@@ -23,6 +23,8 @@ pipelines:
             - name: buildJfrogCliPluginGit
           environmentVariables:
             JFROG_CLI_OFFER_CONFIG: "false"
+            JFROG_CLI_PLUGIN_REPO_NAME: ""
+            JFROG_CLI_PLUGIN_VERSION: ""
         execution:
           onStart:
             - update_commit_status buildJfrogCliPluginGit --context "$step_name"
