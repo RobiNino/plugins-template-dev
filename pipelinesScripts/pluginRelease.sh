@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #function build(goos, goarch, exeName)
 build () {
   echo build

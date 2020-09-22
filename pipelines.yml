@@ -39,7 +39,7 @@ pipelines:
           onExecute:
             - git clone https://github.com/$JFROG_CLI_PLUGIN_DOMAIN_NAME/$JFROG_CLI_PLUGIN_REPO_NAME
             - pushd $JFROG_CLI_PLUGIN_REPO_NAME
-            - sh pipelinesScripts/pluginRelease.sh
+            - sh "pipelinesScripts/pluginRelease.sh"
             - popd
             #- touch testtestt
             #- ./jfrog rt docker-push $IMAGE_NAME reg2 --url=https://releases.jfrog.io/artifactory --access-token=$int_releases_jfrog_token
