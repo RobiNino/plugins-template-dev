@@ -23,22 +23,20 @@ pipelines:
             - name: buildJfrogCliPluginGit
           environmentVariables:
             JFROG_CLI_OFFER_CONFIG: "false"
+            JFROG_CLI_PLUGIN_DOMAIN_NAME: ""
             JFROG_CLI_PLUGIN_REPO_NAME: ""
             JFROG_CLI_PLUGIN_VERSION: ""
         execution:
           onStart:
             - update_commit_status buildJfrogCliPluginGit --context "$step_name"
           onExecute:
-            #function build(goos, goarch, exeName)
-            - buildFunc () {
-            - echo "$0"
-            - }
-            - buildFunc "there"
-            - echo "here"
-            - curl -fL https://getcli.jfrog.io | sh
-            - touch testtestt
+            - git clone https://github.com/RobiNino/plugins-template-dev
+            - pushd plugins-template-dev
+            - sh pipelinesScripts/pluginRelease.sh
+            - popd plugins-template-dev
+            #- touch testtestt
             #- ./jfrog rt docker-push $IMAGE_NAME reg2 --url=https://releases.jfrog.io/artifactory --access-token=$int_releases_jfrog_token
             #- ./jfrog rt u ./todo --url=https://releases.jfrog.io/artifactory --access-token=$int_releases_jfrog_token
-            - ./jfrog rt u ./testtestt robi-t/pipe/ --url=https://ecosysjfrog.jfrog.io/artifactory --user=$int_robi_eco_user --apikey=$int_robi_eco_apikey
+            # - ./jfrog rt u ./testtestt robi-t/pipe/ --url=https://ecosysjfrog.jfrog.io/artifactory --user=$int_robi_eco_user --apikey=$int_robi_eco_apikey
           onComplete:
             - update_commit_status buildJfrogCliPluginGit --context "$step_name"
