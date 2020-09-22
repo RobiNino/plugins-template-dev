@@ -3,7 +3,7 @@ resources:
     type: GitRepo
     configuration:
       path: RobiNino/plugins-template-dev #todo
-      gitProvider: robi_github
+      gitProvider: robi_github #todo
       buildOn:
         # Build on commit and tags
         tagCreate: true
@@ -30,6 +30,7 @@ pipelines:
                   - "1.14.4"
           environmentVariables:
             JFROG_CLI_OFFER_CONFIG: "false"
+            JFROG_CLI_PLUGIN_PLUGIN_NAME: "plugin-test"
             JFROG_CLI_PLUGIN_DOMAIN_NAME: "RobiNino"
             JFROG_CLI_PLUGIN_REPO_NAME: "plugins-template-dev"
             JFROG_CLI_PLUGIN_VERSION: "0.0.3"

@@ -12,21 +12,20 @@ build () {
 
 #function buildAndUpload(pkg, goos, goarch, fileExtension)
 buildAndUpload () {
-  pkg="$JFROG_CLI_PLUGIN_REPO_NAME-$1"
+  pkg="$1"
   goos="$2"
   goarch="$3"
   fileExtension="$4"
-  exeName="$JFROG_CLI_PLUGIN_REPO_NAME$fileExtension"
+  exeName="$JFROG_CLI_PLUGIN_PLUGIN_NAME$fileExtension"
 
   build $goos $goarch $exeName
 
-  destPath="robi-t/pipe-releases/$JFROG_CLI_PLUGIN_REPO_NAME/$JFROG_CLI_PLUGIN_VERSION/$pkg/$exeName"
+  destPath="robi-t/jfrog-cli-plugins/$JFROG_CLI_PLUGIN_PLUGIN_NAME/$JFROG_CLI_PLUGIN_VERSION/$pkg/$exeName"
   ./jfrog rt u "./$exeName" "$destPath" --url=https://ecosysjfrog.jfrog.io/artifactory --user=$int_robi_eco_user --apikey=$int_robi_eco_apikey
 }
 
 # Download JFrog CLI
 curl -fL https://getcli.jfrog.io | sh
-./jfrog -v
 
 # Build and upload for every architecture
 buildAndUpload 'windows-amd64' 'windows' 'amd64' '.exe'
