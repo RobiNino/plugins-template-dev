@@ -3,11 +3,13 @@
 #function build(goos, goarch, exeName)
 build () {
   echo build
-  export GOOS="$1"
-  export GOARCH="$2"
+  export GOOS="$2"
+  export GOARCH="$3"
+  exeName="$4"
   echo "$GOOS"
   echo "$GOARCH"
-  CGO_ENABLED=0 go build -o "$2" -ldflags '-w -extldflags "-static"' main.go
+  CGO_ENABLED=0 go build -o "$exeName" -ldflags '-w -extldflags "-static"' main.go
+  ls
 }
 #function buildAndUpload(goos, goarch, fileExtension)
 buildAndUpload () {
@@ -25,5 +27,5 @@ go version
 
 # Build and upload for every architecture
 #buildAndUpload 'windows', 'amd64', '.exe'
-buildAndUpload 'linux', '386', ''
+buildAndUpload 'linux' '386' ''
 #declare -a windows-amd64=("element1" "element2" "element3")
