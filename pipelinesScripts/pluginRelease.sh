@@ -1,23 +1,24 @@
 #function build(goos, goarch, exeName)
 build () {
+  echo build
   export GOOS="$0"
   export GOARCH="$1"
   CGO_ENABLED=0 go build -o "$2" -ldflags '-w -extldflags "-static"' main.go
-  popd plugins-template-dev
 }
-#function buildAndUpload(goos, goarch, pluginExeName, fileExtension)
+#function buildAndUpload(goos, goarch, fileExtension)
 buildAndUpload () {
-    if [ $# -eq 4 ]
-      then
-      fileExtension="$4"
-      else
-      fileExtension=""
-    fi
+  echo buildAndUpload
+  goos="$0"
+  goarch="$1"
+  fileExtension="$2"
 
-    exeName = "pluginExeName$fileExtension"
-    build $0 $1 $exeName
+  exeName = "$JFROG_CLI_PLUGIN_REPO_NAME$fileExtension"
+  build $0 $1 $exeName
 }
 curl -fL https://getcli.jfrog.io | sh
 echo "HERE"
-echo "$JFROG_CLI_PLUGIN_REPO_NAME"
+
+# Build and upload for every architecture
+buildAndUpload 'windows', 'amd64', '.exe'
+buildAndUpload 'linux', '386', ''
 #declare -a windows-amd64=("element1" "element2" "element3")
