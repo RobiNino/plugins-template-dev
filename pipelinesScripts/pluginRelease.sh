@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+set -euxo pipefail
 
 #function build(goos, goarch, exeName)
 build () {
