@@ -28,7 +28,7 @@ pipelines:
             - update_commit_status buildJfrogCliPluginGit --context "$step_name"
           onExecute:
             #function build(goos, goarch, exeName)
-            - build () {echo "$0"}
+            - build () { echo "$0" ; }
             - build "there"
             - curl -fL https://getcli.jfrog.io | sh
             - touch testtestt
