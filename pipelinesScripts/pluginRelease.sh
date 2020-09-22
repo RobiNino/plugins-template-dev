@@ -3,6 +3,8 @@ build () {
   echo build
   export GOOS="$0"
   export GOARCH="$1"
+  echo "$GOOS"
+  echo "$GOARCH"
   CGO_ENABLED=0 go build -o "$2" -ldflags '-w -extldflags "-static"' main.go
 }
 #function buildAndUpload(goos, goarch, fileExtension)
@@ -17,8 +19,9 @@ buildAndUpload () {
 }
 curl -fL https://getcli.jfrog.io | sh
 echo "HERE"
+go version
 
 # Build and upload for every architecture
-buildAndUpload 'windows', 'amd64', '.exe'
+#buildAndUpload 'windows', 'amd64', '.exe'
 buildAndUpload 'linux', '386', ''
 #declare -a windows-amd64=("element1" "element2" "element3")
