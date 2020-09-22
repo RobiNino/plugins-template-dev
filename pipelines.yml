@@ -21,6 +21,13 @@ pipelines:
             - name: robi_eco #todo releases_jfrog
           inputResources:
             - name: buildJfrogCliPluginGit
+          runtime:
+            type: image
+            image:
+              auto:
+                language: docker.bintray.io/jfrog/pipelines-u16go:1.14.4
+                versions:
+                  - "1.14.4"
           environmentVariables:
             JFROG_CLI_OFFER_CONFIG: "false"
             JFROG_CLI_PLUGIN_DOMAIN_NAME: "RobiNino"

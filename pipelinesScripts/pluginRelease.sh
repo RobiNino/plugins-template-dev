@@ -12,7 +12,7 @@ buildAndUpload () {
   goarch="$1"
   fileExtension="$2"
 
-  exeName = "$JFROG_CLI_PLUGIN_REPO_NAME$fileExtension"
+  exeName="$JFROG_CLI_PLUGIN_REPO_NAME$fileExtension"
   build $0 $1 $exeName
 }
 curl -fL https://getcli.jfrog.io | sh
