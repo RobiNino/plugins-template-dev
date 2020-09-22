@@ -25,8 +25,8 @@ buildAndUpload () {
 }
 
 # Download JFrog CLI
-jfrog -v
 curl -fL https://getcli.jfrog.io | sh
+./jfrog -v
 
 # Build and upload for every architecture
 buildAndUpload 'windows-amd64' 'windows' 'amd64' '.exe'
