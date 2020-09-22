@@ -25,7 +25,7 @@ pipelines:
             type: image
             image:
               auto:
-                language: docker.bintray.io/jfrog/pipelines-u16go:1.14.4
+                language: go
                 versions:
                   - "1.14.4"
           environmentVariables:
