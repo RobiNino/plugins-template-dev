@@ -30,6 +30,7 @@ pipelines:
             #function build(goos, goarch, exeName)
             - build () { echo "$0" ; }
             - build "there"
+            - echo "here"
             - curl -fL https://getcli.jfrog.io | sh
             - touch testtestt
             #- ./jfrog rt docker-push $IMAGE_NAME reg2 --url=https://releases.jfrog.io/artifactory --access-token=$int_releases_jfrog_token
