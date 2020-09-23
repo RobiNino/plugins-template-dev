@@ -6,13 +6,14 @@ build () {
   export GOOS="$1"
   export GOARCH="$2"
   exeName="$3"
+  echo "building $exeName for $GOOS $GOARCH ..."
 
   CGO_ENABLED=0 go build -o "$exeName" -ldflags '-w -extldflags "-static"' main.go
 }
 
 #function verifyUniqueVersion(versionPath)
 verifyUniqueVersion () {
-  echo verifyUniqueVersion
+  echo "verifying version uniqueness..."
   versionPath="$1"
   res=$(curl -o /dev/null -s -w "%{http_code}\n" "https://ecosysjfrog.jfrog.io/artifactory/$versionPath")
 
@@ -22,7 +23,7 @@ verifyUniqueVersion () {
     exit exitCode
   fi
 
-  if [ $res -eq 220 ]; then
+  if [ $res -eq 200 ]; then
     echo "version already exists in registry"
     exit exitCode
   fi
@@ -40,8 +41,16 @@ buildAndUpload () {
   verifyUniqueVersion versionFolderPath
 
   build $goos $goarch $exeName
+
   destPath="$versionFolderPath$pkg/$exeName"
+  echo "uploading to $destPath ..."
+
   ./jfrog rt u "./$exeName" "$destPath" --url=https://ecosysjfrog.jfrog.io/artifactory --user=$int_robi_eco_user --apikey=$int_robi_eco_apikey
+  exitCode=$?
+  if [ $exitCode -ne 0 ]; then
+    echo "failed uploading plugin"
+    exit exitCode
+  fi
 }
 
 # Download JFrog CLI
