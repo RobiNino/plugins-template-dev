@@ -29,7 +29,7 @@ pipelines:
                 versions:
                   - "1.14.4"
           environmentVariables:
-            JFROG_CLI_PLUGIN_PLUGIN_NAME: "sdfs"
+            JFROG_CLI_PLUGIN_PLUGIN_NAME: "plugin-dev"
             JFROG_CLI_PLUGIN_DOMAIN_NAME: "RobiNino"
             JFROG_CLI_PLUGIN_REPO_NAME: "plugins-template-dev"
             JFROG_CLI_PLUGIN_VERSION: "v0.1.0"
