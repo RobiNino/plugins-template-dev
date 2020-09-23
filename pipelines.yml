@@ -35,7 +35,7 @@ pipelines:
             JFROG_CLI_PLUGIN_PLUGIN_NAME: "hello-frog"
             JFROG_CLI_PLUGIN_DOMAIN_NAME: "RobiNino"
             JFROG_CLI_PLUGIN_REPO_NAME: "jfrog-cli-plugin-template-pub"
-            JFROG_CLI_PLUGIN_VERSION: "v0.1.1"
+            JFROG_CLI_PLUGIN_VERSION: "v0.1.0"
         execution:
           onStart:
             - update_commit_status buildJfrogCliPluginGit --context "$step_name"
