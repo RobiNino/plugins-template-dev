@@ -42,7 +42,7 @@ pipelines:
           onExecute:
             # Copy the plugin release script from registry repo to plugin repo
             - git clone https://github.com/$JFROG_CLI_PLUGIN_DOMAIN_NAME/$JFROG_CLI_PLUGIN_REPO_NAME
-            - cp "$res_buildJfrogCliPluginGit_resourcePath/pipelinesScripts/pluginRelease.sh" "./$JFROG_CLI_PLUGIN_REPO_NAME"
+            - cp "$res_buildJfrogCliPluginGit_resourcePath/pipelinesScripts/pluginRelease.sh" "./$JFROG_CLI_PLUGIN_REPO_NAME/"
             - pushd $JFROG_CLI_PLUGIN_REPO_NAME
             - sh "pipelinesScripts/pluginRelease.sh"
             - popd
