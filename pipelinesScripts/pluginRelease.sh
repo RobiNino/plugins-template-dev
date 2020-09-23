@@ -16,6 +16,7 @@ verifyUniqueVersion () {
   echo "verifying version uniqueness..."
   versionPath="$1"
   res=$(curl -o /dev/null -s -w "%{http_code}\n" "https://ecosysjfrog.jfrog.io/artifactory/$versionPath")
+  echo "res $res"
 
   exitCode=$?
   if [ $exitCode -ne 0 ]; then
