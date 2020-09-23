@@ -1,14 +1,24 @@
 #!/bin/bash
 set -eu
 
-#function build(goos, goarch, exeName)
+#function verifyPluginVersionMatching()
+verifyPluginVersionMatching () {
+  echo "MATCHIN!!!!!"
+}
+
+#function build(pkg, goos, goarch, exeName)
 build () {
-  export GOOS="$1"
-  export GOARCH="$2"
-  exeName="$3"
+  pkg="$1"
+  export GOOS="$2"
+  export GOARCH="$3"
+  exeName="$4"
   echo "Building $exeName for $GOOS $GOARCH ..."
 
   CGO_ENABLED=0 go build -o "$exeName" -ldflags '-w -extldflags "-static"' main.go
+
+  if [ "$pkg" = "linux-386" ]; then
+    verifyPluginVersionMatching
+  fi
 }
 
 #function verifyUniqueVersion()
@@ -50,7 +60,7 @@ buildAndUpload () {
   fileExtension="$4"
   exeName="$JFROG_CLI_PLUGIN_PLUGIN_NAME$fileExtension"
 
-  build $goos $goarch $exeName
+  build $pkg $goos $goarch $exeName
 
   destPath="robi-t/$JFROG_CLI_PLUGINS_REGISTRY_REPO/$JFROG_CLI_PLUGIN_PLUGIN_NAME/$JFROG_CLI_PLUGIN_VERSION/$pkg/$exeName"
   echo "Uploading $exeName to $JFROG_CLI_PLUGINS_REGISTRY_URL/$destPath ..."
@@ -66,7 +76,14 @@ buildAndUpload () {
 #function copyToLatestDir()
 copyToLatestDir () {
   pluginPath="robi-t/$JFROG_CLI_PLUGINS_REGISTRY_REPO/$JFROG_CLI_PLUGIN_PLUGIN_NAME"
+  echo "Copy version to latest dir: $pluginPath"
+
   ./jfrog rt cp "$pluginPath/$JFROG_CLI_PLUGIN_VERSION/(*)" "$pluginPath/latest/{1}" --flat --url="$JFROG_CLI_PLUGINS_REGISTRY_URL" --user=$int_robi_eco_user --apikey=$int_robi_eco_apikey #todo change token
+  exitCode=$?
+  if [ $exitCode -ne 0 ]; then
+    echo "Error: Failed uploading plugin"
+    exit $exitCode
+  fi
 }
 
 echo "Machine type:"
