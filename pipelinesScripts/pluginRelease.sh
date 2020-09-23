@@ -39,7 +39,7 @@ buildAndUpload () {
   exeName="$JFROG_CLI_PLUGIN_PLUGIN_NAME$fileExtension"
 
   versionFolderPath="robi-t/jfrog-cli-plugins/$JFROG_CLI_PLUGIN_PLUGIN_NAME/$JFROG_CLI_PLUGIN_VERSION/"
-  verifyUniqueVersion versionFolderPath
+  verifyUniqueVersion $versionFolderPath
 
   build $goos $goarch $exeName
 
