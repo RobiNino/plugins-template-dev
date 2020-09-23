@@ -16,17 +16,17 @@ verifyUniqueVersion () {
   echo "verifying version uniqueness..."
   versionPath="$1"
   res=$(curl -o /dev/null -s -w "%{http_code}\n" "https://ecosysjfrog.jfrog.io/artifactory/$versionPath")
-  echo "res $res"
+  echo "Artifactory response: $res"
 
   exitCode=$?
   if [ $exitCode -ne 0 ]; then
     echo "failed verifying uniqueness of the plugin's version"
-    exit exitCode
+    exit $exitCode
   fi
 
   if [ $res -eq 200 ]; then
     echo "version already exists in registry"
-    exit exitCode
+    exit 1
   fi
 }
 
