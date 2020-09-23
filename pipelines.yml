@@ -29,13 +29,14 @@ pipelines:
                 versions:
                   - "1.14.4"
           environmentVariables:
-            JFROG_CLI_OFFER_CONFIG: "false"
-            JFROG_CLI_PLUGIN_PLUGIN_NAME: "hello-frog"
+            JFROG_CLI_PLUGIN_PLUGIN_NAME: "sdfs"
             JFROG_CLI_PLUGIN_DOMAIN_NAME: "RobiNino"
-            JFROG_CLI_PLUGIN_REPO_NAME: "jfrog-cli-plugin-template-pub"
+            JFROG_CLI_PLUGIN_REPO_NAME: "plugins-template-dev"
             JFROG_CLI_PLUGIN_VERSION: "v0.1.0"
-            JFROG_CLI_PLUGINS_REGISTRY_URL: "https://ecosysjfrog.jfrog.io/artifactory"
-            JFROG_CLI_PLUGINS_REGISTRY_REPO: "jfrog-cli-plugins"
+            readOnly:
+              JFROG_CLI_OFFER_CONFIG: "false"
+              JFROG_CLI_PLUGINS_REGISTRY_URL: "https://ecosysjfrog.jfrog.io/artifactory"
+              JFROG_CLI_PLUGINS_REGISTRY_REPO: "jfrog-cli-plugins"
         execution:
           onStart:
             - update_commit_status buildJfrogCliPluginGit --context "$step_name"
