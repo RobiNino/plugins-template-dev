@@ -14,8 +14,9 @@ build () {
 #function verifyUniqueVersion(versionPath)
 verifyUniqueVersion () {
   echo "Verifying version uniqueness..."
-  versionPath="$1"
-  res=$(curl -o /dev/null -s -w "%{http_code}\n" "$JFROG_CLI_PLUGINS_REGISTRY_URL/$versionPath")
+  versionFolderUrl="$JFROG_CLI_PLUGINS_REGISTRY_URL/robi-t/$JFROG_CLI_PLUGINS_REGISTRY_REPO/$JFROG_CLI_PLUGIN_PLUGIN_NAME/$JFROG_CLI_PLUGIN_VERSION/"
+  echo "Checking existence of $versionFolderUrl"
+  res=$(curl -o /dev/null -s -w "%{http_code}\n" "$versionFolderUrl")
   echo "Artifactory response: $res"
 
   exitCode=$?
@@ -38,21 +39,21 @@ buildAndUpload () {
   fileExtension="$4"
   exeName="$JFROG_CLI_PLUGIN_PLUGIN_NAME$fileExtension"
 
-  versionFolderPath="robi-t/jfrog-cli-plugins/$JFROG_CLI_PLUGIN_PLUGIN_NAME/$JFROG_CLI_PLUGIN_VERSION/"
-  verifyUniqueVersion $versionFolderPath
-
   build $goos $goarch $exeName
 
-  destPath="$versionFolderPath$pkg/$exeName"
+  destPath="robi-t/$JFROG_CLI_PLUGINS_REGISTRY_REPO/$JFROG_CLI_PLUGIN_PLUGIN_NAME/$JFROG_CLI_PLUGIN_VERSION/$pkg/$exeName"
   echo "Uploading to $JFROG_CLI_PLUGINS_REGISTRY_URL/$destPath ..."
 
   ./jfrog rt u "./$exeName" "$destPath" --url="$JFROG_CLI_PLUGINS_REGISTRY_URL" --user=$int_robi_eco_user --apikey=$int_robi_eco_apikey
   exitCode=$?
   if [ $exitCode -ne 0 ]; then
-    echo "failed uploading plugin"
-    exit exitCode
+    echo "Error: Failed uploading plugin"
+    exit $exitCode
   fi
 }
+
+# Verify uniqueness of the requested plugin's version
+verifyUniqueVersion
 
 # Download JFrog CLI
 curl -fL https://getcli.jfrog.io | sh
