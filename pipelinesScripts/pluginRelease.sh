@@ -63,6 +63,15 @@ buildAndUpload () {
   fi
 }
 
+#function copyToLatestDir()
+copyToLatestDir () {
+  pluginPath="robi-t/$JFROG_CLI_PLUGINS_REGISTRY_REPO/$JFROG_CLI_PLUGIN_PLUGIN_NAME"
+  ./jfrog rt cp "$pluginPath/$JFROG_CLI_PLUGIN_VERSION/(*)" "$pluginPath/latest/{1}" --flat --url="$JFROG_CLI_PLUGINS_REGISTRY_URL" --user=$int_robi_eco_user --apikey=$int_robi_eco_apikey #todo change token
+}
+
+echo "Machine type:"
+echo "$(uname -m)"
+
 # Verify uniqueness of the requested plugin's version
 verifyUniqueVersion
 
@@ -76,3 +85,6 @@ buildAndUpload 'linux-amd64' 'linux' 'amd64' ''
 buildAndUpload 'linux-arm64' 'linux' 'arm64' ''
 buildAndUpload 'linux-arm' 'linux' 'arm' ''
 buildAndUpload 'mac-386' 'darwin' 'amd64' ''
+
+# Copy the uploaded version to override latest dir
+copyToLatestDir

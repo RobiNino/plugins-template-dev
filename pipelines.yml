@@ -33,7 +33,7 @@ pipelines:
             JFROG_CLI_PLUGIN_PLUGIN_NAME: "plugin-test"
             JFROG_CLI_PLUGIN_DOMAIN_NAME: "RobiNino"
             JFROG_CLI_PLUGIN_REPO_NAME: "plugins-template-dev"
-            JFROG_CLI_PLUGIN_VERSION: "v1.0.1"
+            JFROG_CLI_PLUGIN_VERSION: "v1.0.2"
             JFROG_CLI_PLUGINS_REGISTRY_URL: "https://ecosysjfrog.jfrog.io/artifactory"
             JFROG_CLI_PLUGINS_REGISTRY_REPO: "jfrog-cli-plugins"
         execution:
