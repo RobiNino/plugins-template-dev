@@ -12,6 +12,7 @@ verifyPluginVersionMatching () {
   fi
 
   # Get the version which is after the last space. (expected output to -v for example: "plugin-name version v1.0.0")
+  echo "Output: $res"
   builtVersion="${res##* }"
   # Compare versions
   if [ "$builtVersion" != "$JFROG_CLI_PLUGIN_VERSION" ]; then
