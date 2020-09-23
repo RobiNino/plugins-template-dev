@@ -42,7 +42,7 @@ buildAndUpload () {
   build $goos $goarch $exeName
 
   destPath="robi-t/$JFROG_CLI_PLUGINS_REGISTRY_REPO/$JFROG_CLI_PLUGIN_PLUGIN_NAME/$JFROG_CLI_PLUGIN_VERSION/$pkg/$exeName"
-  echo "Uploading to $JFROG_CLI_PLUGINS_REGISTRY_URL/$destPath ..."
+  echo "Uploading $exeName to $JFROG_CLI_PLUGINS_REGISTRY_URL/$destPath ..."
 
   ./jfrog rt u "./$exeName" "$destPath" --url="$JFROG_CLI_PLUGINS_REGISTRY_URL" --user=$int_robi_eco_user --apikey=$int_robi_eco_apikey
   exitCode=$?
@@ -56,7 +56,8 @@ buildAndUpload () {
 verifyUniqueVersion
 
 # Download JFrog CLI
-curl -fL https://getcli.jfrog.io | sh
+echo "Downloading latest version of JFrog CLI..."
+curl -sfL https://getcli.jfrog.ioo | sh
 
 # Build and upload for every architecture
 buildAndUpload 'windows-amd64' 'windows' 'amd64' '.exe'
