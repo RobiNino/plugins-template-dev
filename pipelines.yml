@@ -40,7 +40,7 @@ pipelines:
           onStart:
             - update_commit_status buildJfrogCliPluginGit --context "$step_name"
           onExecute:
-            - echo "$res_buildJfrogCliPluginGit_gitProvider_url"
+            - echo "$res_buildJfrogCliPluginGit_gitRepoRepositoryHttpsUrl"
             - echo "$int_robi_github_url"
             - git clone https://github.com/$JFROG_CLI_PLUGIN_DOMAIN_NAME/$JFROG_CLI_PLUGIN_REPO_NAME
             - pushd $JFROG_CLI_PLUGIN_REPO_NAME
