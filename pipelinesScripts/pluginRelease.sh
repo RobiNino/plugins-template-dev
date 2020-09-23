@@ -16,7 +16,7 @@ verifyPluginVersionMatching () {
   builtVersion="${res##* }"
   # Compare versions
   if [ "$builtVersion" != "$JFROG_CLI_PLUGIN_VERSION" ]; then
-    echo "Versions dont match. Actual: $builtVersion, Expected: $JFROG_CLI_PLUGIN_VERSION"
+    echo "Versions dont match. Provided: $JFROG_CLI_PLUGIN_VERSION, Actual: $builtVersion"
     exit 1
   fi
   echo "Versions match."

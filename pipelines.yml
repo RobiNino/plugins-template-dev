@@ -10,6 +10,8 @@ resources:
       branches:
         # Only build on the master
         include: master
+      files:
+        include: ^plugins\/.+
 
 pipelines:
   - name: build_jfrog_cli_plugin
