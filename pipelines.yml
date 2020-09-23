@@ -13,6 +13,12 @@ resources:
 
 pipelines:
   - name: build_jfrog_cli_plugin
+    configuration:
+      environmentVariables:
+        readOnly:
+          JFROG_CLI_OFFER_CONFIG: "false"
+          JFROG_CLI_PLUGINS_REGISTRY_URL: "https://ecosysjfrog.jfrog.io/artifactory"
+          JFROG_CLI_PLUGINS_REGISTRY_REPO: "jfrog-cli-plugins"
     steps:
       - name: BuildAndPush
         type: Bash
@@ -32,10 +38,7 @@ pipelines:
             JFROG_CLI_PLUGIN_PLUGIN_NAME: "plugin-dev"
             JFROG_CLI_PLUGIN_DOMAIN_NAME: "RobiNino"
             JFROG_CLI_PLUGIN_REPO_NAME: "plugins-template-dev"
-            JFROG_CLI_PLUGIN_VERSION: "v0.1.0"
-            JFROG_CLI_OFFER_CONFIG: "false"
-            JFROG_CLI_PLUGINS_REGISTRY_URL: "https://ecosysjfrog.jfrog.io/artifactory"
-            JFROG_CLI_PLUGINS_REGISTRY_REPO: "jfrog-cli-plugins"
+            JFROG_CLI_PLUGIN_VERSION: "v0.1.1"
         execution:
           onStart:
             - update_commit_status buildJfrogCliPluginGit --context "$step_name"
