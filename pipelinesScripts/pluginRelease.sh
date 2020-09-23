@@ -3,7 +3,22 @@ set -eu
 
 #function verifyPluginVersionMatching()
 verifyPluginVersionMatching () {
-  echo "MATCHIN!!!!!"
+  echo "Verifying provided plugin version matches built version..."
+  res=$(eval "./$JFROG_CLI_PLUGIN_PLUGIN_NAME -v")
+  exitCode=$?
+  if [ $exitCode -ne 0 ]; then
+    echo "Error: Failed verifying version matches"
+    exit $exitCode
+  fi
+
+  # Get the version which is after the last space. (expected output to -v for example: "plugin-name version v1.0.0")
+  builtVersion="${res##* }"
+  # Compare versions
+  if [ "$builtVersion" != "$JFROG_CLI_PLUGIN_VERSION" ]; then
+    echo "Versions dont match. Actual: $builtVersion, Expected: $JFROG_CLI_PLUGIN_VERSION"
+    exit 1
+  fi
+  echo "Versions match."
 }
 
 #function build(pkg, goos, goarch, exeName)
@@ -16,6 +31,7 @@ build () {
 
   CGO_ENABLED=0 go build -o "$exeName" -ldflags '-w -extldflags "-static"' main.go
 
+  # Run verification after building plugin for the correct platform of this image.
   if [ "$pkg" = "linux-386" ]; then
     verifyPluginVersionMatching
   fi
@@ -25,16 +41,16 @@ build () {
 verifyUniqueVersion () {
   echo "Verifying version uniqueness..."
   versionFolderUrl="$JFROG_CLI_PLUGINS_REGISTRY_URL/robi-t/$JFROG_CLI_PLUGINS_REGISTRY_REPO/$JFROG_CLI_PLUGIN_PLUGIN_NAME/$JFROG_CLI_PLUGIN_VERSION/"
+
   echo "Checking existence of $versionFolderUrl"
   res=$(curl -o /dev/null -s -w "%{http_code}\n" "$versionFolderUrl")
-  echo "Artifactory response: $res"
-
   exitCode=$?
   if [ $exitCode -ne 0 ]; then
     echo "Error: Failed verifying uniqueness of the plugin's version"
     exit $exitCode
   fi
 
+  echo "Artifactory response: $res"
   if [ $res -eq 200 ]; then
     echo "Error: Version already exists in registry"
     exit 1
@@ -85,9 +101,6 @@ copyToLatestDir () {
     exit $exitCode
   fi
 }
-
-echo "Machine type:"
-echo "$(uname -m)"
 
 # Verify uniqueness of the requested plugin's version
 verifyUniqueVersion
