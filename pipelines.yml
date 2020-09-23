@@ -40,12 +40,8 @@ pipelines:
           onStart:
             - update_commit_status buildJfrogCliPluginGit --context "$step_name"
           onExecute:
-            - ls
-            - echo "52"
             - git clone https://github.com/$JFROG_CLI_PLUGIN_DOMAIN_NAME/$JFROG_CLI_PLUGIN_REPO_NAME
             - pushd $JFROG_CLI_PLUGIN_REPO_NAME
-            - ls
-            - echo "52"
             - sh "pipelinesScripts/pluginRelease.sh"
             - popd
           onComplete:

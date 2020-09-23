@@ -109,13 +109,14 @@ verifyUniqueVersion
 # Download JFrog CLI
 downloadJfrogCli
 
-# Build and upload for every architecture
-buildAndUpload 'windows-amd64' 'windows' 'amd64' '.exe'
+# Build and upload for every architecture.
+# Keep 'linux-386' first to prevent unnecessary uploads in case the built version doesn't match the provided one.
 buildAndUpload 'linux-386' 'linux' '386' ''
 buildAndUpload 'linux-amd64' 'linux' 'amd64' ''
 buildAndUpload 'linux-arm64' 'linux' 'arm64' ''
 buildAndUpload 'linux-arm' 'linux' 'arm' ''
 buildAndUpload 'mac-386' 'darwin' 'amd64' ''
+buildAndUpload 'windows-amd64' 'windows' 'amd64' '.exe'
 
 # Copy the uploaded version to override latest dir
 copyToLatestDir
