@@ -44,7 +44,7 @@ pipelines:
             - git clone https://github.com/$JFROG_CLI_PLUGIN_DOMAIN_NAME/$JFROG_CLI_PLUGIN_REPO_NAME
             - cp "$res_buildJfrogCliPluginGit_resourcePath/pipelinesScripts/pluginRelease.sh" "./$JFROG_CLI_PLUGIN_REPO_NAME/"
             - pushd $JFROG_CLI_PLUGIN_REPO_NAME
-            - sh "pipelinesScripts/pluginRelease.sh"
+            - sh "./pluginRelease.sh"
             - popd
           onComplete:
             - update_commit_status buildJfrogCliPluginGit --context "$step_name"
