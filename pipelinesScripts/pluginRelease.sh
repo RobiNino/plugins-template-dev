@@ -11,7 +11,7 @@ build () {
   CGO_ENABLED=0 go build -o "$exeName" -ldflags '-w -extldflags "-static"' main.go
 }
 
-#function verifyUniqueVersion(versionPath)
+#function verifyUniqueVersion()
 verifyUniqueVersion () {
   echo "Verifying version uniqueness..."
   versionFolderUrl="$JFROG_CLI_PLUGINS_REGISTRY_URL/robi-t/$JFROG_CLI_PLUGINS_REGISTRY_REPO/$JFROG_CLI_PLUGIN_PLUGIN_NAME/$JFROG_CLI_PLUGIN_VERSION/"
@@ -31,6 +31,17 @@ verifyUniqueVersion () {
   fi
 }
 
+#function downloadJfrogCli()
+downloadJfrogCli () {
+  echo "Downloading latest version of JFrog CLI..."
+  curl -sSfL https://getcli.jfrog.ioo | sh
+  # Verify CLI was downloaded
+  if [ ! -f ./jfrog ]; then
+      echo "Error: JFrog CLI downloaded failed."
+      exit 1
+  fi
+}
+
 #function buildAndUpload(pkg, goos, goarch, fileExtension)
 buildAndUpload () {
   pkg="$1"
@@ -44,7 +55,7 @@ buildAndUpload () {
   destPath="robi-t/$JFROG_CLI_PLUGINS_REGISTRY_REPO/$JFROG_CLI_PLUGIN_PLUGIN_NAME/$JFROG_CLI_PLUGIN_VERSION/$pkg/$exeName"
   echo "Uploading $exeName to $JFROG_CLI_PLUGINS_REGISTRY_URL/$destPath ..."
 
-  ./jfrog rt u "./$exeName" "$destPath" --url="$JFROG_CLI_PLUGINS_REGISTRY_URL" --user=$int_robi_eco_user --apikey=$int_robi_eco_apikey
+  ./jfrog rt u "./$exeName" "$destPath" --url="$JFROG_CLI_PLUGINS_REGISTRY_URL" --user=$int_robi_eco_user --apikey=$int_robi_eco_apikey #todo change token
   exitCode=$?
   if [ $exitCode -ne 0 ]; then
     echo "Error: Failed uploading plugin"
@@ -56,8 +67,7 @@ buildAndUpload () {
 verifyUniqueVersion
 
 # Download JFrog CLI
-echo "Downloading latest version of JFrog CLI..."
-curl -sfL https://getcli.jfrog.ioo | sh
+downloadJfrogCli
 
 # Build and upload for every architecture
 buildAndUpload 'windows-amd64' 'windows' 'amd64' '.exe'
