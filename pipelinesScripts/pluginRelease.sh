@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 #function build(goos, goarch, exeName)
 build () {
@@ -12,16 +12,17 @@ build () {
 
 #function verifyUniqueVersion(versionPath)
 verifyUniqueVersion () {
+  echo verifyUniqueVersion
   versionPath="$1"
   res=$(curl -o /dev/null -s -w "%{http_code}\n" "https://ecosysjfrog.jfrog.io/artifactory/$versionPath")
 
   exitCode=$?
-  if [ exitCode -ne 0 ]; then
+  if [ $exitCode -ne 0 ]; then
     echo "failed verifying uniqueness of the plugin's version"
     exit exitCode
   fi
 
-  if [ exitCode -eq 220 ]; then
+  if [ $res -eq 220 ]; then
     echo "version already exists in registry"
     exit exitCode
   fi
