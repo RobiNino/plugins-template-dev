@@ -28,7 +28,7 @@ build () {
   export GOOS="$2"
   export GOARCH="$3"
   exeName="$4"
-  echo "Building $exeName for $GOOS $GOARCH ..."
+  echo "Building $exeName for $GOOS-$GOARCH ..."
 
   CGO_ENABLED=0 go build -o "$exeName" -ldflags '-w -extldflags "-static"' main.go
 
