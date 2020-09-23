@@ -34,6 +34,7 @@ pipelines:
             JFROG_CLI_PLUGIN_DOMAIN_NAME: "RobiNino"
             JFROG_CLI_PLUGIN_REPO_NAME: "plugins-template-dev"
             JFROG_CLI_PLUGIN_VERSION: "1.0.0"
+            JFROG_CLI_PLUGINS_REGISTRY_URL: "https://ecosysjfrog.jfrog.io/artifactory"
         execution:
           onStart:
             - update_commit_status buildJfrogCliPluginGit --context "$step_name"
@@ -42,9 +43,5 @@ pipelines:
             - pushd $JFROG_CLI_PLUGIN_REPO_NAME
             - sh "pipelinesScripts/pluginRelease.sh"
             - popd
-            #- touch testtestt
-            #- ./jfrog rt docker-push $IMAGE_NAME reg2 --url=https://releases.jfrog.io/artifactory --access-token=$int_releases_jfrog_token
-            #- ./jfrog rt u ./todo --url=https://releases.jfrog.io/artifactory --access-token=$int_releases_jfrog_token
-            # - ./jfrog rt u ./testtestt robi-t/pipe/ --url=https://ecosysjfrog.jfrog.io/artifactory --user=$int_robi_eco_user --apikey=$int_robi_eco_apikey
           onComplete:
             - update_commit_status buildJfrogCliPluginGit --context "$step_name"
