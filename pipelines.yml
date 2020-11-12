@@ -39,7 +39,7 @@ pipelines:
             JFROG_CLI_PLUGIN_DOMAIN_NAME: "jfrog"
             JFROG_CLI_PLUGIN_REPO_NAME: "jfrog-cli-plugins"
             JFROG_CLI_PLUGIN_RELATIVE_PATH: "build-report"
-            JFROG_CLI_PLUGIN_VERSION: "v0.1.0"
+            JFROG_CLI_PLUGIN_VERSION: "v1.0.0"
         execution:
           onStart:
             - update_commit_status buildJfrogCliPluginGit --context "$step_name"
