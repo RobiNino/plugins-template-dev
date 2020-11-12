@@ -44,7 +44,7 @@ verifyUniqueVersion () {
   versionFolderUrl="$JFROG_CLI_PLUGINS_REGISTRY_URL/$JFROG_CLI_PLUGINS_REGISTRY_REPO/$JFROG_CLI_PLUGIN_PLUGIN_NAME/$JFROG_CLI_PLUGIN_VERSION/"
 
   echo "Checking existence of $versionFolderUrl"
-  res=$(curl -o /dev/null -s -w "%{http_code}\n" "$versionFolderUrl")
+  res=$(curl -o /dev/null -s --head --fail "$versionFolderUrl")
   exitCode=$?
   if [ $exitCode -ne 0 ]; then
     echo "Error: Failed verifying uniqueness of the plugin's version"
@@ -82,7 +82,7 @@ buildAndUpload () {
   destPath="$JFROG_CLI_PLUGINS_REGISTRY_REPO/$JFROG_CLI_PLUGIN_PLUGIN_NAME/$JFROG_CLI_PLUGIN_VERSION/$pkg/$exeName"
   echo "Uploading $exeName to $JFROG_CLI_PLUGINS_REGISTRY_URL/$destPath ..."
 
-  ./jfrog rt u "./$exeName" "$destPath" --url="$JFROG_CLI_PLUGINS_REGISTRY_URL" --access-token=$int_releases_jfrog_token #--user=$int_robi_eco_user --apikey=$int_robi_eco_apikey #todo change token
+  ./jfrog rt u "./$exeName" "$destPath" --url="$JFROG_CLI_PLUGINS_REGISTRY_URL" --access-token=$int_releases_jfrog_token
   exitCode=$?
   if [ $exitCode -ne 0 ]; then
     echo "Error: Failed uploading plugin"
@@ -95,7 +95,7 @@ copyToLatestDir () {
   pluginPath="$JFROG_CLI_PLUGINS_REGISTRY_REPO/$JFROG_CLI_PLUGIN_PLUGIN_NAME"
   echo "Copy version to latest dir: $pluginPath"
 
-  ./jfrog rt cp "$pluginPath/$JFROG_CLI_PLUGIN_VERSION/(*)" "$pluginPath/latest/{1}" --flat --url="$JFROG_CLI_PLUGINS_REGISTRY_URL" --access-token=$int_releases_jfrog_token #--user=$int_robi_eco_user --apikey=$int_robi_eco_apikey #todo change token
+  ./jfrog rt cp "$pluginPath/$JFROG_CLI_PLUGIN_VERSION/(*)" "$pluginPath/latest/{1}" --flat --url="$JFROG_CLI_PLUGINS_REGISTRY_URL" --access-token=$int_releases_jfrog_token
   exitCode=$?
   if [ $exitCode -ne 0 ]; then
     echo "Error: Failed uploading plugin"

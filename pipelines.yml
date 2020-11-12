@@ -20,7 +20,7 @@ pipelines:
         type: Bash
         configuration:
           integrations:
-            - name: releases_jfrog #robi_eco #todo
+            - name: releases_jfrog
           inputResources:
             - name: buildJfrogCliPluginGit
           runtime:
@@ -31,12 +31,14 @@ pipelines:
                 versions:
                   - "1.14.4"
           environmentVariables:
-            JFROG_CLI_OFFER_CONFIG: "false"
-            JFROG_CLI_PLUGINS_REGISTRY_URL: "https://releases.jfrog.io/artifactory" #"https://ecosysjfrog.jfrog.io/artifactory" # todo
+            CI: "true"
+            JFROG_CLI_PLUGINS_REGISTRY_URL: "https://releases.jfrog.io/artifactory"
+            # Repo name in artifactory
             JFROG_CLI_PLUGINS_REGISTRY_REPO: "jfrog-cli-plugins"
-            JFROG_CLI_PLUGIN_PLUGIN_NAME: "hello-frog"
-            JFROG_CLI_PLUGIN_DOMAIN_NAME: "RobiNino"
-            JFROG_CLI_PLUGIN_REPO_NAME: "jfrog-cli-plugin-template-pub"
+            JFROG_CLI_PLUGIN_PLUGIN_NAME: "build-report"
+            JFROG_CLI_PLUGIN_DOMAIN_NAME: "jfrog"
+            JFROG_CLI_PLUGIN_REPO_NAME: "jfrog-cli-plugins"
+            JFROG_CLI_PLUGIN_RELATIVE_PATH: "build-report"
             JFROG_CLI_PLUGIN_VERSION: "v0.1.0"
         execution:
           onStart:
@@ -45,8 +47,8 @@ pipelines:
             # Clone plugin repo.
             - git clone https://github.com/$JFROG_CLI_PLUGIN_DOMAIN_NAME/$JFROG_CLI_PLUGIN_REPO_NAME
             # Copy the plugin release script from registry repo to plugin repo.
-            - cp "$res_buildJfrogCliPluginGit_resourcePath/pipelinesScripts/pluginRelease.sh" "./$JFROG_CLI_PLUGIN_REPO_NAME/"
-            - pushd $JFROG_CLI_PLUGIN_REPO_NAME
+            - cp "$res_buildJfrogCliPluginGit_resourcePath/pipelinesScripts/pluginRelease.sh" "./$JFROG_CLI_PLUGIN_REPO_NAME/$JFROG_CLI_PLUGIN_RELATIVE_PATH"
+            - pushd $JFROG_CLI_PLUGIN_REPO_NAME/$JFROG_CLI_PLUGIN_RELATIVE_PATH
             - sh "./pluginRelease.sh"
             - popd
           onComplete:
