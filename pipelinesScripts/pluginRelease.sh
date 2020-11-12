@@ -60,7 +60,7 @@ verifyUniqueVersion () {
 
 #function downloadJfrogCli()
 downloadJfrogCli () {
-  echo "Downloading the latest version of JFrog CLI..."
+  # Downloading the latest version of JFrog CLI...
   curl -sSfL https://getcli.jfrog.io | sh
   # Verify CLI was downloaded
   if [[ ! -f ./jfrog ]]; then
