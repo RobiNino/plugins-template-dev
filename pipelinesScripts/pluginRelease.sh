@@ -52,7 +52,7 @@ verifyUniqueVersion () {
   fi
 
   echo "Response: $res"
-  if [ $res == *"200"* ]; then
+  if [[ $res =~ "200" ]]; then
     echo "Error: Version already exists in registry"
     exit 1
   fi
