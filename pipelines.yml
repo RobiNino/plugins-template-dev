@@ -49,7 +49,7 @@ pipelines:
             # Copy the plugin release script from registry repo to plugin repo.
             - cp "$res_buildJfrogCliPluginGit_resourcePath/pipelinesScripts/pluginRelease.sh" "./$JFROG_CLI_PLUGIN_REPO_NAME/$JFROG_CLI_PLUGIN_RELATIVE_PATH"
             - pushd $JFROG_CLI_PLUGIN_REPO_NAME/$JFROG_CLI_PLUGIN_RELATIVE_PATH
-            - sh "./pluginRelease.sh"
+            - bash "./pluginRelease.sh"
             - popd
           onComplete:
             - update_commit_status buildJfrogCliPluginGit --context "$step_name"
