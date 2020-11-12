@@ -44,11 +44,17 @@ verifyUniqueVersion () {
   versionFolderUrl="$JFROG_CLI_PLUGINS_REGISTRY_URL/$JFROG_CLI_PLUGINS_REGISTRY_REPO/$JFROG_CLI_PLUGIN_PLUGIN_NAME/$JFROG_CLI_PLUGIN_VERSION/"
 
   echo "Checking existence of $versionFolderUrl"
-  curl -o /dev/null -s --head --fail "$versionFolderUrl"
+  res=$(curl -s --head "$versionFolderUrl" | head -n 1)
   exitCode=$?
-  if [ $exitCode -eq 0 ]; then
-    echo "Error: Version already exists in registry"
+  if [ $exitCode -ne 0 ]; then
+    echo "Error: Failed verifying uniqueness of the plugin's version"
     exit $exitCode
+  fi
+
+  echo "Response: $res"
+  if [[ $res == *"200"* ]]; then
+    echo "Error: Version already exists in registry"
+    exit 1
   fi
 }
 
