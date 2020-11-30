@@ -52,7 +52,7 @@ pipelines:
             # Get params from yaml.
             - ymlPath="$res_buildJfrogCliPluginGit_resourcePath/plugins/$JFROG_CLI_PLUGIN_DESCRIPTOR_FILE_NAME"
             - echo $ymlPath # todo remove
-            - ls "$res_buildJfrogCliPluginGit_resourcePath/"
+            - ls "$res_buildJfrogCliPluginGit_resourcePath/plugins/"
             - yq r $ymlPath
           #       # Clone plugin repo.
           #       - git clone https://github.com/$JFROG_CLI_PLUGIN_DOMAIN_NAME/$JFROG_CLI_PLUGIN_REPO_NAME
