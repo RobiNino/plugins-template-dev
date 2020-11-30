@@ -14,13 +14,13 @@ resources:
         include: ^plugins\/.+
 
 pipelines:
-  - name: build_jfrog_cli_plugin
+  - name: build_jfrog_cli_plugin_robi_dev
     steps:
       - name: BuildAndPush
         type: Bash
         configuration:
           integrations:
-            - name: releases_jfrog
+            - name: robi_eco_token
           inputResources:
             - name: buildJfrogCliPluginGit
           runtime:
@@ -33,7 +33,7 @@ pipelines:
           environmentVariables:
             # CONSTS:
             CI: "true"
-            JFROG_CLI_PLUGINS_REGISTRY_URL: "https://releases.jfrog.io/artifactory"
+            JFROG_CLI_PLUGINS_REGISTRY_URL: "https://ecosysjfrog.jfrog.io/artifactory" # todo
             JFROG_CLI_PLUGINS_RT_REGISTRY_REPO: "jfrog-cli-plugins"
             # CUSTOM:
             JFROG_CLI_PLUGIN_DESCRIPTOR_FILE_NAME: ""
