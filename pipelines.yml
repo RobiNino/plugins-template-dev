@@ -36,7 +36,7 @@ pipelines:
             JFROG_CLI_PLUGINS_REGISTRY_URL: "https://ecosysjfrog.jfrog.io/artifactory" # todo
             JFROG_CLI_PLUGINS_RT_REGISTRY_REPO: "jfrog-cli-plugins"
             # CUSTOM:
-            JFROG_CLI_PLUGIN_DESCRIPTOR_FILE_NAME: ""
+            JFROG_CLI_PLUGIN_DESCRIPTOR_FILE_NAME: "build-report.yml" # todo
             # REMOVE:
             JFROG_CLI_PLUGIN_PLUGIN_NAME: "plugin-name"
             JFROG_CLI_PLUGIN_DOMAIN_NAME: "jfrog"
@@ -50,8 +50,9 @@ pipelines:
             # Install yq to parse yaml.
             - GO111MODULE=on go get github.com/mikefarah/yq/v3
             # Get params from yaml.
-            - ymlPath=$($res_buildJfrogCliPluginGit_resourcePath/plugins/$JFROG_CLI_PLUGIN_DESCRIPTOR_FILE_NAME)
+            - ymlPath=$("$res_buildJfrogCliPluginGit_resourcePath/plugins/$JFROG_CLI_PLUGIN_DESCRIPTOR_FILE_NAME")
             - echo $ymlPath # todo remove
+            - ll "$res_buildJfrogCliPluginGit_resourcePath/"
           #       # Clone plugin repo.
           #       - git clone https://github.com/$JFROG_CLI_PLUGIN_DOMAIN_NAME/$JFROG_CLI_PLUGIN_REPO_NAME
           #       # Copy the plugin release script from registry repo to plugin repo.
