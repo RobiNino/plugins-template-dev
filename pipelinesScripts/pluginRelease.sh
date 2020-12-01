@@ -103,12 +103,6 @@ copyToLatestDir () {
   fi
 }
 
-#todo
-echo $JFROG_CLI_PLUGIN_VERSION
-echo $JFROG_CLI_PLUGIN_PLUGIN_NAME
-exit
-return
-
 # Verify uniqueness of the requested plugin's version
 verifyUniqueVersion
 
