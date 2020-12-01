@@ -51,9 +51,15 @@ pipelines:
             - GO111MODULE=on go get github.com/mikefarah/yq/v3
             # Get params from yaml.
             - ymlPath="$res_buildJfrogCliPluginGit_resourcePath/plugins/$JFROG_CLI_PLUGIN_DESCRIPTOR_FILE_NAME"
-            - echo $ymlPath # todo remove
-            - ls "$res_buildJfrogCliPluginGit_resourcePath/plugins/"
-            - yq r $ymlPath
+            - echo "extracting details from $ymlPath"
+            - pluginName=$(yq r $ymlPath "pluginName")
+            - echo $pluginName
+            - pluginFullRepo=$(yq r $ymlPath "repository")
+            - echo $pluginFullRepo
+            - pluginVersion=$(yq r $ymlPath "version")
+            - echo $pluginVersion
+            - pluginRelativePath=$(yq r $ymlPath "relativePath")
+            - echo $pluginRelativePath
           #       # Clone plugin repo.
           #       - git clone https://github.com/$JFROG_CLI_PLUGIN_DOMAIN_NAME/$JFROG_CLI_PLUGIN_REPO_NAME
           #       # Copy the plugin release script from registry repo to plugin repo.
