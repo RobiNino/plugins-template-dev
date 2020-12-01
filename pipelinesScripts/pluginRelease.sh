@@ -103,6 +103,11 @@ copyToLatestDir () {
   fi
 }
 
+#todo
+echo $pluginName
+exit
+return
+
 # Verify uniqueness of the requested plugin's version
 verifyUniqueVersion
 

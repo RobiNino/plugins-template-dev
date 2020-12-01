@@ -55,20 +55,14 @@ pipelines:
             - pluginName=$(yq r $ymlPath "pluginName") && echo $pluginName
             - pluginRepoFullUrl=$(yq r $ymlPath "repository") && echo $pluginRepoFullUrl
             - pluginRepoName=$(basename $pluginRepoFullUrl .git) && echo $pluginRepoName
-            - pluginVersion=$(yq r $ymlPath "version")
-            - echo $pluginVersion
-            - pluginRelativePath=$(yq r $ymlPath "relativePath")
-            - echo $pluginRelativePath
+            - pluginVersion=$(yq r $ymlPath "version") && echo $pluginVersion
+            - pluginRelativePath=$(yq r $ymlPath "relativePath") && echo $pluginRelativePath
             # Clone plugin repo.
             - git clone $pluginRepoFullUrl
             # Copy the plugin release script from registry repo to plugin repo.
             - cp "$res_buildJfrogCliPluginGit_resourcePath/pipelinesScripts/pluginRelease.sh" "./$pluginRepoName/$pluginRelativePath"
-            - ls
-
-          #       # Copy the plugin release script from registry repo to plugin repo.
-          #       - cp "$res_buildJfrogCliPluginGit_resourcePath/pipelinesScripts/pluginRelease.sh" "./$JFROG_CLI_PLUGIN_REPO_NAME/$JFROG_CLI_PLUGIN_RELATIVE_PATH"
-          #       - pushd $JFROG_CLI_PLUGIN_REPO_NAME/$JFROG_CLI_PLUGIN_RELATIVE_PATH
-          #       - bash "./pluginRelease.sh"
-          #       - popd
+            - pushd "./$pluginRepoName/$pluginRelativePath"
+            - bash "./pluginRelease.sh"
+            - popd
           onComplete:
             - update_commit_status buildJfrogCliPluginGit --context "$step_name"
