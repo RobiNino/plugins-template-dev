@@ -104,7 +104,8 @@ copyToLatestDir () {
 }
 
 #todo
-echo $pluginName
+echo $JFROG_CLI_PLUGIN_VERSION
+echo $JFROG_CLI_PLUGIN_PLUGIN_NAME
 exit
 return
 
