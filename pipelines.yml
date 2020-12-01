@@ -63,7 +63,7 @@ pipelines:
             - pluginRelativePath=$(yq r $ymlPath "relativePath")
             - echo $pluginRelativePath
             # Clone plugin repo.
-            - git clone $pluginFullRepo
+            - git clone $pluginRepoFullUrl
             # Copy the plugin release script from registry repo to plugin repo.
             - cp "$res_buildJfrogCliPluginGit_resourcePath/pipelinesScripts/pluginRelease.sh" "./$pluginRepoName/$pluginRelativePath"
             - ls
