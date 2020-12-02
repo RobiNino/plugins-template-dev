@@ -56,7 +56,7 @@ verifyUniqueVersion () {
     echo "Error: Version already exists in registry"
     exit 1
   fi
-  if ! [[ $res =~ "404" ]]; then
+  if ! [[ $res =~ "401" ]]; then
     echo "Verification failed."
     exit 1
   fi
